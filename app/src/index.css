@@ -1,4 +1,64 @@
 /* ./src/index.css */
 @tailwind base;
 @tailwind components;
+
+.content h1,
+#article h1 {
+  @apply mt-4 text-2xl font-medium text-gray-700 sm:text-3xl md:text-4xl xl:text-5xl lg:mb-6;
+}
+
+.content h2,
+#article h2 {
+  @apply mt-4 text-xl font-medium text-gray-700 sm:text-2xl md:text-3xl xl:text-4xl lg:mb-6;
+}
+
+.content a,
+#article a {
+  @apply underline hover:no-underline text-blue-800 font-semibold;
+}
+
+.content p,
+#article p {
+  @apply mt-5;
+}
+
+.content ol,
+.content ul, 
+#article ol, 
+#article ul {
+  @apply mt-3 mb-3 ml-8;
+}
+
+.content ol li,
+#article ol li {
+  list-style: decimal outside none;
+}
+
+.content ul li,
+#article ul li {
+  list-style: disc outside none;
+}
+
+#article img {
+  @apply md:rounded-md md:shadow-lg mt-4 mb-4;
+}
+
+#article .footnotes {
+  @apply mt-5 text-sm;
+}
+
+#article .footnotes p {
+  @apply mt-1;
+}
+
+#article .footnote-ref {
+  @apply mr-1 no-underline hover:underline text-red-800 font-semibold;
+}
+
+#article .remark-highlight,
+#article .remark-highlight pre {
+  @apply md:rounded-lg md:shadow-lg;
+}
+
+
 @tailwind utilities;

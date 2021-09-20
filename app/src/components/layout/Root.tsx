@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const Root = ({ children, title }: Props) => {
   return (
-    <>
+    <HelmetProvider>
       <Helmet>
         <title>{ title }</title>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,7 +21,7 @@ const Root = ({ children, title }: Props) => {
           {children}
         </div>
       </article>
-    </>
+    </HelmetProvider>
   )
 }
 

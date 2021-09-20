@@ -4,64 +4,81 @@ import DeviceSelector from "components/elements/DeviceSelector";
 import Video from "components/elements/Video";
 
 interface Scores {
-  none: number,
-  paper: number,
-  rock: number,
-  scissors: number
+  none: number;
+  paper: number;
+  rock: number;
+  scissors: number;
 }
 
 interface Prediction {
-  message: string,
-  prediction: string,
-  scores: Scores,
-  time: number,
-  updated: string
+  message: string;
+  prediction: string;
+  scores: Scores;
+  time: number;
+  updated: string;
 }
 
 function App() {
-  const [videoId, setVideoId] = useState<string>('');
-  const [settings, setSettings] = useState<MediaTrackSettings | null>(null);
+  const pctFmt = (n: number | undefined) => n && (n * 100).toFixed(2) + "%";
+  const [videoId, setVideoId] = useState<string>("");
   const [prediction, setPrediction] = useState<Prediction | null>(null);
 
   const setFrame = (frame: string) => {
     (async () => {
       const options: RequestInit = {
-        method: 'POST',
-        body: JSON.stringify({ "image" : frame }),
+        method: "POST",
+        body: JSON.stringify({ image: frame }),
         headers: {
-            'Content-Type': 'application/json'
-        }
-      }      
+          "Content-Type": "application/json",
+        },
+      };
+
       const response = await fetch("/api/predict", options);
       const pred: Prediction = await response.json();
       setPrediction(pred);
     })();
-  }
+  };
 
   return (
-    <Root title="Test">
+    <Root title="Stylish Demo">
       <div
         id="article"
         className="max-w-screen-md mx-auto mt-4 lg:mt-6 md:text-lg"
       >
-        <div className="mt-2 ml-3 mr-3 text-4xl">Test Video Component</div>
+        <div className="mt-2 text-4xl">Stylish MLOps Demo</div>
         <div className="mt-3 text-2xl">
           <div>
             <DeviceSelector onSelect={setVideoId} />
           </div>
         </div>
         <div className="mt-5">
-          <Video device={videoId} onVideoSet={setSettings} onFrameset={setFrame} />
+          <Video device={videoId} onFrameset={setFrame} />
         </div>
-        <div className="mt-5">
-          <div>{prediction?.prediction}</div>
-          <ul>
-            <li>None: {prediction?.scores.none}</li>
-            <li>Rock: {prediction?.scores.rock}</li>
-            <li>Paper: {prediction?.scores.paper}</li>
-            <li>Scissors: {prediction?.scores.scissors}</li>
-          </ul>
-          <div>{prediction?.message}</div>
+        <div className="mt-5 content">
+          <table className="flex-grow" width={300}>
+            <tbody>
+              <tr>
+                <td colSpan={2} className="text-3xl font-bold text-green-600">{prediction?.prediction}</td>
+              </tr>
+              <tr>
+                <td className="text-right">None:</td>
+                <td className={`${prediction && prediction.prediction === 'none' ? 'text-3xl text-green-600 font-bold' : ''} text-right`}>{pctFmt(prediction?.scores.none)}</td>
+              </tr>
+              <tr>
+                <td className="text-right">Rock:</td>
+                <td className={`${prediction && prediction.prediction === 'rock' ? 'text-3xl text-green-600 font-bold' : ''} text-right`}>{pctFmt(prediction?.scores.rock)}</td>
+              </tr>
+              <tr>
+                <td className="text-right">Paper:</td>
+                <td className={`${prediction && prediction.prediction === 'paper' ? 'text-3xl text-green-600 font-bold' : ''} text-right`}>{pctFmt(prediction?.scores.paper)}</td>
+              </tr>
+              <tr>
+                <td className="text-right">Scissors:</td>
+                <td className={`${prediction && prediction.prediction === 'scissors' ? 'text-3xl text-green-600 font-bold' : ''} text-right`}>{pctFmt(prediction?.scores.scissors)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div>Model last updated: {prediction?.updated}</div>
         </div>
       </div>
     </Root>
