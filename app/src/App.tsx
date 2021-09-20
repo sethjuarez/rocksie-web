@@ -56,11 +56,11 @@ function App() {
           <Video device={videoId} onFrameset={setFrame} />
         </div>
         <div className="mt-5 content">
-          <table className="flex-grow" width={300}>
+          <table className="flex-grow" width={450}>
             <tbody>
               <tr>
                 <td className="text-3xl font-bold text-green-600">{prediction?.prediction}</td>
-                <td>Last Update: {prediction?.model_update}</td>
+                <td className="text-right">{prediction?.model_update}</td>
               </tr>
               <tr>
                 <td className="text-right">None:</td>
