@@ -80,7 +80,7 @@ function App() {
               </tr>
             </tbody>
           </table>
-          <div className="mt-3">{prediction?.timestamp}</div>
+          <div className="mt-3">{prediction?.timestamp} [time: {prediction?.time}]</div>
         </div>
       </div>
     </Root>
