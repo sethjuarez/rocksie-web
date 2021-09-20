@@ -11,11 +11,12 @@ interface Scores {
 }
 
 interface Prediction {
-  message: string;
+  time: number;
   prediction: string;
   scores: Scores;
-  time: number;
-  updated: string;
+  timestamp: string;
+  model_update: string;
+  message: string;
 }
 
 function App() {
@@ -58,7 +59,8 @@ function App() {
           <table className="flex-grow" width={300}>
             <tbody>
               <tr>
-                <td colSpan={2} className="text-3xl font-bold text-green-600">{prediction?.prediction}</td>
+                <td className="text-3xl font-bold text-green-600">{prediction?.prediction}</td>
+                <td>Last Update: {prediction?.model_update}</td>
               </tr>
               <tr>
                 <td className="text-right">None:</td>
@@ -78,7 +80,7 @@ function App() {
               </tr>
             </tbody>
           </table>
-          <div>Model last updated: {prediction?.updated}</div>
+          <div className="mt-3">{prediction?.timestamp}</div>
         </div>
       </div>
     </Root>
