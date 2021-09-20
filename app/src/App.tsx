@@ -3,22 +3,38 @@ import Root from "components/layout/Root";
 import DeviceSelector from "components/elements/DeviceSelector";
 import Video from "components/elements/Video";
 
+interface Scores {
+  none: number,
+  paper: number,
+  rock: number,
+  scissors: number
+}
+
+interface Prediction {
+  message: string,
+  prediction: string,
+  scores: Scores,
+  time: number,
+  updated: string
+}
+
 function App() {
   const [videoId, setVideoId] = useState<string>('');
   const [settings, setSettings] = useState<MediaTrackSettings | null>(null);
+  const [prediction, setPrediction] = useState<Prediction | null>(null);
 
   const setFrame = (frame: string) => {
     (async () => {
       const options: RequestInit = {
         method: 'POST',
-        body: JSON.stringify({ "image" : frame.replace("data:image/png;base64", "")}),
+        body: JSON.stringify({ "image" : frame }),
         headers: {
             'Content-Type': 'application/json'
         }
-      }
-      
-      //const response = await fetch("/api/predict", options)
-      console.log(options.body);
+      }      
+      const response = await fetch("/api/predict", options);
+      const pred: Prediction = await response.json();
+      setPrediction(pred);
     })();
   }
 
@@ -38,7 +54,14 @@ function App() {
           <Video device={videoId} onVideoSet={setSettings} onFrameset={setFrame} />
         </div>
         <div className="mt-5">
-
+          <div>{prediction?.prediction}</div>
+          <ul>
+            <li>None: {prediction?.scores.none}</li>
+            <li>Rock: {prediction?.scores.rock}</li>
+            <li>Paper: {prediction?.scores.paper}</li>
+            <li>Scissors: {prediction?.scores.scissors}</li>
+          </ul>
+          <div>{prediction?.message}</div>
         </div>
       </div>
     </Root>

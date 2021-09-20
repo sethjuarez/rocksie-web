@@ -12,7 +12,9 @@ export const Video = ({ device, onVideoSet, onFrameset }: Props) => {
 
   const handleSubmit = () => {
     if (video.current && canvas.current) {
-      const ctx = canvas.current.getContext("2d");
+      const ctx = canvas.current.getContext("2d", {
+        alpha: false
+      });
       if(ctx) {
         ctx.drawImage(video.current, 0, 0, 320, 240);
         onFrameset(canvas.current.toDataURL());
